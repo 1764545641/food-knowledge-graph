@@ -1,15 +1,13 @@
-import os
-from dotenv import load_dotenv
+import streamlit as st
 from neo4j import GraphDatabase
-
-# 加载环境变量
-load_dotenv()
 
 class Neo4jTool:
     def __init__(self):
-        self.uri = os.getenv("NEO4J_URI")
-        self.user = os.getenv("NEO4J_USERNAME")
-        self.pwd = os.getenv("NEO4J_PASSWORD")
+        # 从Streamlit后台Secrets读取密钥，云端无法读取本地.env
+        neo4j_conf = st.secrets["NEO4J"]
+        self.uri = neo4j_conf["NEO4J_URI"]
+        self.user = neo4j_conf["NEO4J_USERNAME"]
+        self.pwd = neo4j_conf["NEO4J_PASSWORD"]
         self.driver = GraphDatabase.driver(self.uri, auth=(self.user, self.pwd))
 
     def close(self):
