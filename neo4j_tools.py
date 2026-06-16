@@ -118,6 +118,7 @@ class Neo4jTool:
         return context
 
     # 7. 统计节点、关系总数（首页顶部指标）
+   
     def get_count_stat(self):
         cypher = """
         MATCH (n) RETURN labels(n) AS type, count(n) AS num
@@ -125,3 +126,5 @@ class Neo4jTool:
         MATCH ()-[r]->() RETURN type(r) AS type, count(r) AS num
         """
         return self.run_cypher(cypher)
+
+  
